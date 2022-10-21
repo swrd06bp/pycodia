@@ -1,2 +1,2 @@
 # Provide the autotest paths
-DIR_GENERATED_TESTS='autotest'
+DIR_GENERATED_TESTS='testfiles'
