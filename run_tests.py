@@ -29,6 +29,9 @@ def get_list_files():
     Return
     :list_files: paths of the list of files 
     """
+    if not os.path.isdir(config.DIR_GENERATED_TESTS):
+        return []
+
     list_files = os.listdir(config.DIR_GENERATED_TESTS) 
     return [l for l in list_files if l.endswith('.json')]
 
