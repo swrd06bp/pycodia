@@ -3,7 +3,7 @@ import json
 
 import config
 
-class Codia(object):
+class Codya(object):
     """
     Class that creates some testing environment for decoration on the local environment
     Only needs to be initated once for the entire project 

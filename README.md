@@ -1,19 +1,19 @@
-# pycodia
+# pycodya
 
 
 ### Utilization
 
 ```python
-from pycodia import Codia
+from pycodya import Codya
 
-CodiaTest = Codia()
+CodyaTest = Codya()
 
 
-@CodiaTest.function_tester
+@CodyaTest.function_tester
 def do_something():
     # code here
 
-@CodiaTest.function_mock
+@CodyaTest.function_mock
 def do_something_else():
     # code here
 

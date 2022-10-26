@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "pycodya"
+authors = [{name = "Swrd06bp", email = "boris@codya.tech"}]
+readme = "README.md"
+version = "0.0.2"
+license = {file = "LICENSE"}
+requires-python = ">=3.7"
+classifiers = [
+"Programming Language :: Python :: 3",
+"License :: OSI Approved :: Apache Software License"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/swrd06bp/pycodya"
+"Bug Tracker" = "https://github.com/swrd06bp/pycodya/issues"

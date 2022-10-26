@@ -70,8 +70,8 @@ def test_file_functions(file_name, json_data):
         # Get the function to be tested
         test_function = import_name(module_name, data['funcName'])
         
-        # Make sure that the class CodiaTest is set to True
-        file_module = import_name(module_name, 'CodiaTest')
+        # Make sure that the class CodyaTest is set to True
+        file_module = import_name(module_name, 'CodyaTest')
         file_module._set_testing(True)
 
         # Run the test for that function
