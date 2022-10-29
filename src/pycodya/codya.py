@@ -1,7 +1,8 @@
 import os
 import json
 
-import config
+from pycodya.helpers import tools
+from pycodya import config
 
 class Codya(object):
     """
@@ -18,7 +19,8 @@ class Codya(object):
         """
         self.token = token
         self.is_testing = False
-        self.root_dir = os.path.dirname(os.path.abspath(__file__)) + '/'
+        self.ROOT_DIR = os.path.abspath(os.curdir)
+        # print('lsdfksdfls', self.__name__)
 
         if not os.path.isdir(config.DIR_GENERATED_TESTS):
             os.makedirs(config.DIR_GENERATED_TESTS)
@@ -48,9 +50,11 @@ class Codya(object):
 
         with open(output_file) as fr:
             stored_data = json.load(fr)
+        
+        relative_path = tools.get_relative_path(self.ROOT_DIR, file_path)
 
         for d in stored_data:
-            if d['filePath'] == file_path.replace(self.root_dir, '') \
+            if d['filePath'] == relative_path \
                and d['funcName'] == function_name \
                and d['dataInput'] == list(data_input):
                return d['dataOutput'] 
@@ -68,9 +72,11 @@ class Codya(object):
                 stored_data = json.load(fr)
         else:
             stored_data = []
+        
+        relative_path = tools.get_relative_path(self.ROOT_DIR, file_path)
 
         new_data = {
-            'filePath': file_path.replace(self.root_dir, ''),    
+            'filePath': relative_path, 
             'funcName': function_name,
             'dataInput': list(data_input),
             'dataOutput': data_output,
@@ -108,7 +114,7 @@ class Codya(object):
         def inner(*args, **kwargs):
             # get the result 
             result = func(*args, **kwargs)
-    
+
             # store the function attributes for later
             if not self.is_testing:
                 self._store_test(

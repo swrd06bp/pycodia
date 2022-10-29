@@ -2,7 +2,7 @@ import os
 import json
 import time
 
-import config
+from pycodya import config
 
 def import_name(modulename, name):
     """

@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 name = "pycodya"
 authors = [{name = "Swrd06bp", email = "boris@codya.tech"}]
 readme = "README.md"
-version = "0.0.2"
+version = "0.0.9"
 license = {file = "LICENSE"}
 requires-python = ">=3.7"
 classifiers = [

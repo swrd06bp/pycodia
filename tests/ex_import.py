@@ -1,4 +1,7 @@
-from pycodya import pycodya
+import sys
+sys.path.append('../src/')
 
-CodyaTest = pycodya.Codya('boris')
+from pycodya import Codya
+
+CodyaTest = Codya('boris')
 
