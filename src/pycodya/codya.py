@@ -20,7 +20,6 @@ class Codya(object):
         self.token = token
         self.is_testing = False
         self.ROOT_DIR = os.path.abspath(os.curdir)
-        # print('lsdfksdfls', self.__name__)
 
         if not os.path.isdir(config.DIR_GENERATED_TESTS):
             os.makedirs(config.DIR_GENERATED_TESTS)
@@ -37,7 +36,15 @@ class Codya(object):
 
     def _get_stored_output(self, file_path, function_name, data_input):
         """
-        
+        Get all the stored output from the test files stored while the functions were running
+
+        Inputs
+        :file_path: (string) absolute file path of the file which contains the function to be tested
+        :function_name: name of the function to be tested
+        :data_input: args given to the function to be tested
+
+        Output
+        :data_output: output of the data to be tested stored in the test files
         """
         file_name = file_path.split('/')[-1]
         output_file = '{}/{}.json'.format(
@@ -61,6 +68,16 @@ class Codya(object):
         return 
 
     def _store_test(self, file_path, function_name, data_input, data_output, is_mocked=False):
+        """
+        Store the input and output of the function while the function is runnning
+        
+        Inputs
+        :file_path: (string) absolute file path of the file which contains the function to be tested
+        :function_name: name of the function to be tested
+        :data_input: args given to the function to be tested
+        :data_output: output of the data to be tested stored in the test files
+        :is_mocked: check if the function is mocked
+        """
         file_name = file_path.split('/')[-1]
         output_file = '{}/{}.json'.format(
             config.DIR_GENERATED_TESTS,

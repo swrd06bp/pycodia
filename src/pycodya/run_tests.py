@@ -71,7 +71,7 @@ def test_file_functions(file_name, json_data):
         test_function = import_name(module_name, data['funcName'])
         
         # Make sure that the class CodyaTest is set to True
-        file_module = import_name(module_name, 'CodyaTest')
+        file_module = import_name(module_name, config.PYCODYA_VAR_NAME)
         file_module._set_testing(True)
 
         # Run the test for that function
@@ -96,12 +96,15 @@ def run_tests():
     # Get the list of stored files
     list_files = get_list_files()
 
-    # Run the test for all the files
-    for f in list_files:
-        json_data = read_file(f)                      
-        test_file_functions(f, json_data)
+    if not len(list_files):
+        print("No tests stored yet, please see the documentation to run tests")
+    else:
+        # Run the test for all the files
+        for f in list_files:
+            json_data = read_file(f)                      
+            test_file_functions(f, json_data)
 
-    print("\n\nThe tests took\033[1m {} \033[0m seconds to run".format(time.time() - start_time))
+        print("\n\nThe tests took\033[1m {} \033[0m seconds to run".format(time.time() - start_time))
 
     
 
