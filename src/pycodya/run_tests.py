@@ -1,8 +1,12 @@
 import os
+import sys
 import json
 import time
 
 from pycodya import config
+
+# Add the current path
+sys.path.append(os.getcwd())
 
 def import_name(modulename, name):
     """
@@ -18,7 +22,8 @@ def import_name(modulename, name):
     try:
         module = __import__(modulename, globals(), locals(), [name])
         return vars(module)[name]
-    except ImportError:
+    except ImportError as error:
+        print(error)
         return None
 
 

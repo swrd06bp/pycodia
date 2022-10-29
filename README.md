@@ -22,7 +22,13 @@ def do_something_else():
 
 ### Run tests
 ```sh
-python3 run_tests.py
+pycodya run alltests
+```
+
+
+### You can explore all the options here
+```sh
+pycodya -h
 ```
 
 

@@ -8,7 +8,7 @@ name = "pycodya"
 description = "The best way test your entire code automatically"
 authors = [{name = "Swrd06bp", email = "boris@codya.tech"}]
 readme = "README.md"
-version = "0.1.0"
+version = "0.1.1"
 license = {file = "LICENSE"}
 requires-python = ">=3.7"
 classifiers = [
@@ -19,3 +19,6 @@ classifiers = [
 [project.urls]
 repository = "https://github.com/swrd06bp/pycodya"
 "Bug Tracker" = "https://github.com/swrd06bp/pycodya/issues"
+
+[project.scripts]
+pycodya = "pycodya.main:main"
