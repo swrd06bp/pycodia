@@ -5,9 +5,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycodya"
+description = "The best way test your entire code automatically"
 authors = [{name = "Swrd06bp", email = "boris@codya.tech"}]
 readme = "README.md"
-version = "0.0.9"
+version = "0.1.0"
 license = {file = "LICENSE"}
 requires-python = ">=3.7"
 classifiers = [
@@ -16,5 +17,6 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/swrd06bp/pycodya"
+"repository" = "https://github.com/swrd06bp/pycodya"
 "Bug Tracker" = "https://github.com/swrd06bp/pycodya/issues"
+"keywords" = ["auto tests", "automatic testings", ]
