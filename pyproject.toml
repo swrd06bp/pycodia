@@ -17,6 +17,5 @@ classifiers = [
 ]
 
 [project.urls]
-"repository" = "https://github.com/swrd06bp/pycodya"
+repository = "https://github.com/swrd06bp/pycodya"
 "Bug Tracker" = "https://github.com/swrd06bp/pycodya/issues"
-"keywords" = ["auto tests", "automatic testings", ]
