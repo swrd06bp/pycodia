@@ -111,8 +111,5 @@ def run_tests():
 
         print("\n\nThe tests took\033[1m {} \033[0m seconds to run".format(time.time() - start_time))
 
-    
 
-if __name__ == '__main__':
-    run_tests()
 
