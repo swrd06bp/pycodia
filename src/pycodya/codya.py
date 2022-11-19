@@ -96,7 +96,7 @@ class Codya(object):
             'filePath': relative_path, 
             'funcName': function_name,
             'dataInput': list(data_input),
-            'dataOutput': data_output,
+            'dataOutput': list(data_output),
         }
                 
         flag = False

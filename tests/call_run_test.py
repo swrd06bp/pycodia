@@ -1,7 +1,7 @@
 import sys
 sys.path.append('../src/')
 
-from pycodya import run_tests
+from pycodya import main
 
-run_tests()
+main.main()
 
