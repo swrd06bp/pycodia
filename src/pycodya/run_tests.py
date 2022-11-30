@@ -83,8 +83,11 @@ def test_file_functions(file_name, json_data):
         input_function = data['dataInput']
         results = test_function(*input_function)
 
+        if len(data['dataOutput']) == 1: data_output = data['dataOutput'][0]
+        else: data_output = tuple(data['dataOutput'])
+
         # Analyse the results
-        if results == data['dataOutput']:
+        if results == data_output:
             print('\033[1m file: \033[0m {} - \033[1m function: \033[0m {} - \033[92m test OK \033[0m'
                 .format(module_name, data['funcName']))
         else:

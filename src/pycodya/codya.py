@@ -4,6 +4,7 @@ import requests
 
 from pycodya.helpers import tools
 from pycodya import config
+from pycodya.codya_api import CodyaApi
 
 class Codya(object):
     """
@@ -19,6 +20,7 @@ class Codya(object):
         :token: (uuid) unique to the customer and project
         """
         self.token = token
+        self.api = CodyaApi(self.token)
         self.is_testing = False
         self.ROOT_DIR = os.path.abspath(os.curdir)
 
@@ -47,7 +49,7 @@ class Codya(object):
             :data_input: args given to the function to be tested
             :data_output: output of the data to be tested stored in the test files
         """
-        url = "http://localhost:8080/api/v0/funcunittest"
+        self.api._send_data(new_data) 
 
         
         
@@ -84,7 +86,10 @@ class Codya(object):
             if d['filePath'] == relative_path \
                and d['funcName'] == function_name \
                and d['dataInput'] == list(data_input):
-               return d['dataOutput'] 
+                try:
+                    return list(d['dataOutput'])
+                except:
+                    return list([d['dataOnput']])
         return 
 
     def _store_test(self, file_path, function_name, data_input, data_output, is_mocked=False):
@@ -111,12 +116,18 @@ class Codya(object):
             stored_data = []
         
         relative_path = tools.get_relative_path(self.ROOT_DIR, file_path)
-
+        
+        try:
+            list_data_output = list(data_output)
+        except:
+            list_data_output = list([data_output])
+        
         new_data = {
+            'fileName': file_name,    
             'filePath': relative_path, 
             'funcName': function_name,
             'dataInput': list(data_input),
-            'dataOutput': list(data_output),
+            'dataOutput': list_data_output,
         }
                 
         flag = False
@@ -183,11 +194,13 @@ class Codya(object):
         def inner(*args, **kwargs):
             # 
             if self.is_testing:
-                return self._get_stored_output(
+                result = self._get_stored_output(
                     func.__globals__['__file__'],
                     func.__name__,
                     args,
                     )
+                if len(result) == 1: return result[0]
+                else: return tupple(result)
 
             # get the result 
             result = func(*args, **kwargs)

@@ -5,8 +5,9 @@ from getpass import getpass
 from pycodya import config
 
 class CodyaApi(object):
-    def __init__(self):
+    def __init__(self, token_branch=None):
         self.token = self._extract_user_token()
+        self.token_branch = token_branch
         self.base_url = "http://localhost:8080/api/v0"
 
 
@@ -50,15 +51,15 @@ class CodyaApi(object):
         else:
             url = self.base_url + "/branch-by-token"
             resp = requests.get(url, headers={'Authorization': 'bearer ' + token_branch})
+            if resp.status_code != 200:
+                print("Please login first")
+                return
             branch = resp.json()["branch"]
             project_id = branch["projectId"]
             url = self.base_url + "/project/" + project_id
             resp = requests.get(url, headers={'Authorization': 'bearer ' + self.token})
             project = resp.json()["project"]
             print("You are currently on the project \033[1;3m{}\033[0m on branch \033[1;3m{}\033[0m\n\n".format(project["name"], branch["name"]))
-
-
-
 
 
         is_project_creation = input("What would you like to do:\n0 - Create a new project\n1 - Use an existing project\nPlease type 0 or 1: ")
@@ -124,7 +125,9 @@ class CodyaApi(object):
     def pull(self):
         pass
 
-    def pushUnitTests(self):
-        pass
+    def _send_data(self, data):
+        url = self.base_url + '/branch/funcunittests'
+        print(data)
+        requests.post(url, json=data, headers={'Authorization': 'bearer ' + self.token_branch})
 
 
