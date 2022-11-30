@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 
 from pycodya.helpers import tools
 from pycodya import config
@@ -24,6 +25,7 @@ class Codya(object):
         if not os.path.isdir(config.DIR_GENERATED_TESTS):
             os.makedirs(config.DIR_GENERATED_TESTS)
 
+
     def _set_testing(self, is_testing):
         """
         Setter for is_testing
@@ -32,6 +34,24 @@ class Codya(object):
         :is_testing: true if we are running the tests
         """
         self.is_testing = is_testing
+
+    def _send_data(self, new_data):
+        """
+        Send the input and output of the function while the function is runnning
+        to codya api server
+        
+        Inputs
+        :new_data: (Obj) new data object with the following keys 
+            :file_path: (string) absolute file path of the file which contains the function to be tested
+            :function_name: name of the function to be tested
+            :data_input: args given to the function to be tested
+            :data_output: output of the data to be tested stored in the test files
+        """
+        url = "http://localhost:8080/api/v0/funcunittest"
+
+        
+        
+
 
 
     def _get_stored_output(self, file_path, function_name, data_input):
@@ -111,8 +131,13 @@ class Codya(object):
                 flag = True
                 break
 
+        # if the data has not been found, store it
         if not flag:
             stored_data.append(new_data)
+            # if there is a token send the data
+            if self.token:
+                self._send_data(new_data)
+
 
         fw = open(output_file, 'w')
         json.dump(stored_data, fw)
