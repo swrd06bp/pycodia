@@ -6,7 +6,7 @@ from pycodya import config
 from pycodya.helpers import tools
 
 class CodyaApi(object):
-    def __init__(self, token_branch=None):
+    def __init__(self, token_branch=""):
         self.token = self._extract_user_token()
         self.token_branch = token_branch if token_branch else self._extract_branch_token()
         self.base_url = "http://localhost:8080/api/v0"
@@ -18,7 +18,7 @@ class CodyaApi(object):
                 token = f.read()
             return token    
         else:
-            return None
+            return ""
     
     def _extract_branch_token(self):
         if os.path.isfile(config.BRANCH_TOKEN_FILE):
@@ -26,7 +26,7 @@ class CodyaApi(object):
                 branch_token = f.read()
             return branch_token    
         else:
-            return None
+            return ""
 
 
     def login(self):
@@ -38,6 +38,8 @@ class CodyaApi(object):
         if resp.status_code == 200:    
             self.token = resp.json()["token"]
             
+            if not os.path.isdir(config.DIR_GENERATED_ROOT):
+                os.makedirs(config.DIR_GENERATED_ROOT)
             with open(config.CREDS_GENERATED_FILE, 'w') as f:
                 f.write(self.token)
             print("login succesfull", username, password, self.token)
@@ -47,7 +49,7 @@ class CodyaApi(object):
     def projects(self):
         token_branch = self._extract_branch_token()
 
-        if token_branch == None:
+        if not token_branch:
             print("No current project selected.. \n\n")
         else:
             url = self.base_url + "/branch-by-token"
@@ -75,6 +77,9 @@ class CodyaApi(object):
                 return
             url = self.base_url + "/project"
             resp = requests.post(url, headers={'Authorization': 'bearer ' + self.token}, json={"name": project_name, "language": "pycodya"})
+            if resp.status_code != 200:
+                print("Please login first: pycodya login")
+                return
             project_id = resp.json()["projectId"]
             url = self.base_url + "/project/" + project_id + "/branch"
             resp = requests.post(url, headers={'Authorization': 'bearer ' + self.token}, json={"name": "master"})
@@ -90,6 +95,9 @@ class CodyaApi(object):
         elif is_project_creation == "1":
             url = self.base_url + "/projects"
             resp = requests.get(url, headers={'Authorization': 'bearer ' + self.token})
+            if resp.status_code != 200:
+                print("Please login first: pycodya login")
+                return
             all_projects = resp.json()["projects"]
             if not all_projects:
                 print("No projects yet - please create one")
@@ -126,6 +134,9 @@ class CodyaApi(object):
     def pull_data(self):
         url = self.base_url + '/branch/funcunittests'
         resp = requests.get(url, headers={'Authorization': 'bearer ' + self.token_branch})
+        if resp.status_code != 200:
+            print("No branch selected, please choose a project: pycodya projects")
+            return
         data = resp.json()['unittestdata']
         print("Pulling from Codya")
         tools.create_unitestfiles(data)

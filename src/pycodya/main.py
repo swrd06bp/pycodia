@@ -23,7 +23,7 @@ from pycodya.codya_api import CodyaApi
 
 
 def main():
-    arguments = docopt(__doc__, version="0.1.1")
+    arguments = docopt(__doc__, version="0.2.1a")
 
     if arguments['<actions>'] == 'alltests':
         run_tests()
