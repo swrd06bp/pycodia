@@ -3,11 +3,12 @@ import re
 import requests
 from getpass import getpass
 from pycodya import config
+from pycodya.helpers import tools
 
 class CodyaApi(object):
     def __init__(self, token_branch=None):
         self.token = self._extract_user_token()
-        self.token_branch = token_branch
+        self.token_branch = token_branch if token_branch else self._extract_branch_token()
         self.base_url = "http://localhost:8080/api/v0"
 
 
@@ -22,8 +23,8 @@ class CodyaApi(object):
     def _extract_branch_token(self):
         if os.path.isfile(config.BRANCH_TOKEN_FILE):
             with open(config.BRANCH_TOKEN_FILE, 'r') as f:
-                branch_id = f.read()
-            return branch_id    
+                branch_token = f.read()
+            return branch_token    
         else:
             return None
 
@@ -51,13 +52,13 @@ class CodyaApi(object):
         else:
             url = self.base_url + "/branch-by-token"
             resp = requests.get(url, headers={'Authorization': 'bearer ' + token_branch})
-            if resp.status_code != 200:
-                print("Please login first")
-                return
             branch = resp.json()["branch"]
             project_id = branch["projectId"]
             url = self.base_url + "/project/" + project_id
             resp = requests.get(url, headers={'Authorization': 'bearer ' + self.token})
+            if resp.status_code != 200:
+                print("Please login first: pycodya login")
+                return
             project = resp.json()["project"]
             print("You are currently on the project \033[1;3m{}\033[0m on branch \033[1;3m{}\033[0m\n\n".format(project["name"], branch["name"]))
 
@@ -122,11 +123,15 @@ class CodyaApi(object):
             os.remove(config.CREDS_GENERATED_FILE)
         print("Logout successful")    
 
-    def pull(self):
-        pass
+    def pull_data(self):
+        url = self.base_url + '/branch/funcunittests'
+        resp = requests.get(url, headers={'Authorization': 'bearer ' + self.token_branch})
+        data = resp.json()['unittestdata']
+        print("Pulling from Codya")
+        tools.create_unitestfiles(data)
 
     def _send_data(self, data):
-        url = self.base_url + '/branch/funcunittests'
+        url = self.base_url + '/branch/funcunittest'
         print(data)
         requests.post(url, json=data, headers={'Authorization': 'bearer ' + self.token_branch})
 

@@ -33,6 +33,8 @@ def main():
         CodyaApi().logout()
     elif arguments['<actions>'] == 'projects':
         CodyaApi().projects()
+    elif arguments['<actions>'] == 'pull':
+        CodyaApi().pull_data() 
     
 
 
